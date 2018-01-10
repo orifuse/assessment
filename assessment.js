@@ -5,6 +5,7 @@
     const resultDivided = document.getElementById('result-area');
     const tweetDivided = document.getElementById('tweet-area');
 
+
     /**
     * 指定した要素の子要素をすべて削除する
     * @param {HTMLElement} element HTMLの要素
@@ -70,6 +71,7 @@
         '{userName}のいいところはその全てです。ありのままの{userName}自身がいいところなのです。',
         '{userName}のいいところは自制心です。やばいと思ったときにしっかりと衝動を抑えられる{userName}が皆から評価されています。'
     ];
+    const specificNames = ['折原', '吉村', 'わたし'];
 
     /**
      * 名前の文字列を渡すと診断結果を返す関数
@@ -77,6 +79,11 @@
      * @return {string} 診断結果
      */
     function assessment(userName) {
+
+        if (specificNames.indexOf(userName) > -1) { // 特定の名前について特別な反応を返す
+            return '見たな！あなたは' + userName + 'さんですね！';
+        }
+
         // 全文字のコード番号を取得してそれを足し合わせる
         let sumOfcharCode = 0;
         for (let i = 0; i < userName.length; i++) {
@@ -100,4 +107,10 @@
         assessment('次郎') === assessment('次郎'),
         '「入力が同じ名前なら、同じ診断結果を出力する」処理が正しくありません。'
     );
+    for (let i = 0; i < specificNames.length; i++) {
+        console.assert(
+            assessment(specificNames[i]) ===  '見たな！あなたは' + specificNames[i] + 'さんですね！',
+            '特定の名前について特別な反応を返す処理が正しくありません。特に' + specificNames[i] + 'さんのあたり。'
+        );
+    }
 })();
