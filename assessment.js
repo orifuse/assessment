@@ -72,7 +72,11 @@ const answers = [
     '{userName}のいいところは自制心です。やばいと思ったときにしっかりと衝動を抑えられる{userName}が皆から評価されています。',
     '{userName}のいいところは優しさです。{userName}の優しい雰囲気や立ち振舞に多くの人が癒やされています。'
 ];
-    const specificNames = ['折原', '吉村', 'わたし'];
+    const specificNames = {
+        'わたし': 'あなたはわたしじゃないですか！',
+        '折原': '折原先生こんにちはこんにちは！',
+        'sifue': '吉村先生こんにちはこんにちは！' 
+    };
 
     /**
      * 名前の文字列を渡すと診断結果を返す関数
@@ -80,9 +84,9 @@ const answers = [
      * @return {string} 診断結果
      */
     function assessment(userName) {
-
-        if (specificNames.indexOf(userName) > -1) { // 特定の名前について特別な反応を返す
-            return '見たな！あなたは' + userName + 'さんですね！';
+        　
+        if (specificNames.hasOwnProperty(userName)){ // 特定の名前について、それぞれ専用の答えを返す
+            return specificNames[userName];
         }
 
         // 全文字のコード番号を取得してそれを足し合わせる
@@ -108,10 +112,8 @@ const answers = [
         assessment('次郎') === assessment('次郎'),
         '「入力が同じ名前なら、同じ診断結果を出力する」処理が正しくありません。'
     );
-    for (let i = 0; i < specificNames.length; i++) {
-        console.assert(
-            assessment(specificNames[i]) ===  '見たな！あなたは' + specificNames[i] + 'さんですね！',
-            '特定の名前について特別な反応を返す処理が正しくありません。特に' + specificNames[i] + 'さんのあたり。'
-        );
+    for (let userName of Object.keys(specificNames)) {
+        assessment(specificNames[userName]) === specificNames[userName],
+        '「特定の名前について、それぞれ専用の答えを返す」処理が正しくありません。特に' + userName + 'さんのあたり。'
     }
 })();
